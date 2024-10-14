@@ -1,0 +1,50 @@
+### -- 802.1D and Common Spanning Tree (CST) --
+
+The original 802.1D standard, much like the 802.1Q standard, supported only one STP instance for an entire switch network.
+In this situation, referred to as Common Spanning Tree (CST), all VLANs used the same topology, which meant it was not possible to load-share traffic across links by blocking specific VLANs on one link and then blocking other VLANs on alternative links.
+
+### -- MST in Large Topologies --
+
+In environments with thousands of VLANs, maintaining an STP state for all the VLANs can burden the switches processors.
+- Switches must process BPDUs for every VLAN, and when a major trunk link fails, they must compute multiple STP operations to converge the network.
+- MST (Multiple Spanning Tree) provides a solution by mapping one or multiple VLANs onto a single STP tree, called an MST instance (MSTI).
+
+### -- MST Instances (MSTIs) --
+
+MST uses a special STP instance called the Internal Spanning Tree (IST), which is always instance 0.
+- The IST runs on all switch port interfaces for switches in the MST region, regardless of the VLANs associated with the ports.
+- Additional information about other MSTIs is included (nested) in the IST BPDU, which is transmitted throughout the MST region. This allows MST to advertise only one set of BPDUs, minimizing STP traffic regardless of the number of instances, while still providing the necessary information to calculate the STP for other MSTIs.
+
+**Note**: Cisco supports up to 16 MST instances by default.
+- The IST is always instance 0, so instances 1 to 15 can support other VLANs. There is no special name for instances 1 to 15; they are simply known as MSTIs.
+
+### -- MST Configuration --
+
+MST is configured using the following process:
+
+###**Step 1**: Define MST as the spanning tree protocol with the command:  
+`spanning-tree mode mst`.
+
+###**Step 2** *(Optional)*: Define the MST instance priority, using one of two methods:
+- `spanning-tree mst instance [number] priority [priority]`  
+  (The priority is a value between 0 and 61,440 in increments of 4096.)
+- `spanning-tree mst instance [number] root {[primary|secondary] diameter [diameter]}`  
+  (The primary keyword sets the priority to 24,576, and the secondary keyword sets the priority to 28,672.)
+
+###**Step 3**: Associate VLANs to an MST instance. By default, all VLANs are associated with the MST 0 instance.
+- Enter MST configuration submode with the command:  
+  `spanning-tree mst configuration`.
+- Assign VLANs to a different MST instance with the command:  
+  `instance [number] vlan [id]`.
+
+###**Step 4**: Specify the MST version number. The MST version must match for all switches in the same MST region.
+- Configure the MST version number with the submode configuration command:  
+  `revision [version]`.
+
+###**Step 5** *(Optional)*: Define the MST region name. MST regions are recognized by switches that share a common name.
+- By default, a region name is an empty string.
+- Set the MST region name with the command:  
+  `name [mst-region-name]`.
+
+To verify MST configuration on a switch, use the command:  
+`show spanning-tree mst configuration`.

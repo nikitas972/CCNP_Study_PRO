@@ -1,0 +1,67 @@
+### CCNP KEY TOPICS 
+#### Chapter 1 - Switching, Packet Forwarding
+
+---
+
+#### VLANS
+
+- Provide logical segmentation by creating multiple broadcast domains on the same network switch.
+    - VLANs provide higher utilization of switch ports because a port can be associated to the necessary broadcast domain, and multiple broadcast domains can reside on the same switch.
+    - Network devices in one VLAN cannot communicate with devices in a different VLAN without a router to interconnect VLAN segments.
+
+---
+
+### VLANs = 802.1Q Standard
+
+- (Encapsulation dot1Q), which states that 32 bits are added to the packet header in the following fields:
+
+---
+
+#### VLAN Packet Structure:
+
+[Dest.MAC | Source.MAC | TPID | PCP | DEI | VLAN.ID | Source.IP | Dest.IP | Payload]
+
+- **Tag Protocol Identifier (TPID)**: 
+    - This 16-bit field is set to 0x8100 to identify the packet as an 802.1Q packet.
+    
+- **Priority Code Point (PCP)**: 
+    - This 3-bit field indicates a Class of Service (CoS) as part of Layer 2 Quality of Service (QoS) between switches.
+    
+- **Drop Eligible Indicator (DEI)**: 
+    - This 1-bit field indicates where the packet can be dropped when there is bandwidth contention.
+    
+- **VLAN Identifier (VLAN ID)**: 
+    - This 12-bit field specifies the VLAN associated with a network packet.
+
+---
+
+The VLAN identifier has only 12 bits, which provides 4094 unique VLANs.
+
+### Catalyst Switches Use the Following Logic for VLANs:
+
+---
+
+**---VLAN_NUMBERS---**
+
+- VLAN 0 is reserved for 802.1p Traffic and cannot be modified or deleted.
+  
+- VLAN 1 is the Default VLAN and cannot be modified or deleted.
+  
+- VLANs 2 to 1001 are in the normal VLAN range and can be added, deleted, or modified as necessary.
+  
+- VLANs 1002 to 1005 are reserved and cannot be deleted.
+  
+- VLANs 1006 to 4094 are in the extended VLAN range and can be added, deleted, or modified as necessary.
+
+---
+
+**---VLAN_NUMBERS---**
+
+---
+
+### Creating a VLAN
+
+s1# Configure Terminal
+s1(config)# vlan 10
+s1(config)# name Tenth
+s1(config)# exit

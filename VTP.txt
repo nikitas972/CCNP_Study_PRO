@@ -1,0 +1,54 @@
+### -- VLAN Trunking Protocol (VTP) --
+
+Cisco created the VTP (VLAN Trunking Protocol) to reduce the burden of provisioning VLANs on switches. 
+Adding a VLAN might seem like a simple task, but if there are 100 switches, adding a VLAN would require logging into 100 switches to provision just one VLAN. 
+Thanks to VTP, switches that participate in the same VTP domain can have a VLAN created once on a VTP server and propagated to other VTP client switches in the same VTP domain.
+
+### -- VTP Roles --
+
+There are **four roles** in the VTP architecture:
+
+- **Server**: The server switch is responsible for the creation, modification, and deletion of VLANs within the VTP domain.
+- **Client**: The client switch receives VTP advertisements and modifies the VLANs on that switch. VLANs cannot be configured locally on a VTP client.
+- **Transparent**: A switch does not participate in VTP advertisements and does not forward them out of any ports. VLANs are configured only locally.
+- **Off**: A switch does not participate in VTP advertisements and does not forward them out of any ports. VLANs are configured only locally.
+
+### -- VTP Communication --
+
+VTP advertises updates using a multicast address across trunk links to all switches in the VTP domain.  
+There are **three main types** of advertisements:
+
+1. **Summary**:  
+   - This advertisement occurs every 300 seconds or when a VLAN is added, removed, or changed.  
+   - It includes the VTP version, domain, configuration revision number, and timestamp.
+
+2. **Subset**:  
+   - This advertisement occurs after a VLAN configuration change.  
+   - It contains all the relevant information for the switches to make changes to the VLANs on them.
+
+3. **Client Requests**:  
+   - This advertisement is a request by a client to receive a more detailed subset advertisement.  
+   - Typically occurs when a switch with a lower revision number joins the VTP domain and observes a summary advertisement with a higher revision than it has stored locally.
+
+### -- VTP Configuration --
+
+The following are the steps for configuring VTP:
+
+**Step 1**: Define the VTP version with the command `vtp version {1 | 2 | 3}`.
+
+**Step 2**: Define the VTP domain with the command `vtp domain domain-name`.  
+Changing the VTP domain resets the local switch’s version to 0.
+
+**Step 3**: Define the VTP switch role with the command `vtp mode { server | client | transparent | none }`.
+
+**Step 4**: (Optional) Secure the VTP domain with the command `vtp password password`.  
+(This step is optional but recommended because it helps prevent unauthorized switches from joining the VTP domain.)
+
+### -- Note --
+
+It is **VERY IMPORTANT** that every switch that connects to a VTP domain has the VTP revision number reset to 0!  
+Failing to reset the revision number on a switch could result in the switch proving an update to the VTP server.  
+This is not an issue if VLANs are added but is **CATASTROPHIC** if VLANs are removed because those VLANs will be removed throughout the domain.
+
+When a VLAN is removed from a switch, the access port is moved to VLAN 1.  
+It is then necessary to reassign VLANs to every port associated with the VLAN(s) that were removed.

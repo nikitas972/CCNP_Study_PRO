@@ -1,0 +1,10 @@
+### -- Root Ports (RP) --
+
+After switches have identified the root bridge, they must determine their root port (RP).  
+The root bridge continues to advertise configuration BPDUs out of all its ports. Each switch compares the BPDU information to identify its RP. The root port is selected using the following logic (with the next criterion being used in case of a tie):
+
+1. The interface associated with the lowest path cost is preferred.
+2. If the path costs are equal, the interface associated with the lowest system priority of the advertising switch is preferred.
+3. If the system priorities are equal, the interface associated with the lowest system MAC address of the advertising switch is preferred.
+4. When multiple links are associated with the same switch, the interface with the lowest priority from the advertising switch is preferred.
+5. If the priorities are equal, the interface with the lowest port number from the advertising switch is preferred.

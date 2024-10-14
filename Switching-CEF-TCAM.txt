@@ -1,0 +1,41 @@
+### -- PROCESS SWITCHING --
+
+Process switching, also referred to as software switching or slow path, is a switching mechanism in which the general purpose CPU on a router is in charge of packet switching. 
+Process switching is the fallback for CEF because it is dedicated to processing punted IP packets when they cannot be switched by the CEF.
+
+**The types of packets that generally require software handling include the following:**
+- Packets sourced or destined to the router (using control traffic or routing protocols).
+- Packets that are too complex for the hardware to handle (e.g., IP packets with IP options).
+- Packets that require extra information that is not currently known (for example: Unresolved ARP entries).
+
+---
+
+### -- CEF (Cisco Express Forwarding) --
+
+CEF is a Cisco switching mechanism developed to keep up with the demands of faster and evolving network infrastructures. 
+It has been the default switching mechanism on most Cisco platforms that do all their switching using the CPU (software-based routers) since the 1990s, and the default switching mechanism that is used by all Cisco platforms that use specialized application circuits and network processing units.
+
+---
+
+### -- TCAM (Ternary Content Addressable Memory) --
+
+A switch's ternary content addressable memory (TCAM) allows for the matching and evaluation of a packet on more than one field. 
+TCAM is an extension of CAM but enhanced, to allow for upper-layer processing such as identifying the Layer 2/3 source and destination addresses, protocol, QoS markings, and so on. 
+
+TCAM provides more flexibility in searching than CAM, which is binary. A TCAM search provides three results: 0 for true, 1 for false, and X for "do not care," which is a ternary combination. 
+The TCAM entries are stored in Value, Mask, and Result (VMR) format. The value indicates the fields that should be searched, such as the IP address and protocol fields. 
+The mask indicates the field that is of interest and should be queried. 
+The result indicates the action that should be taken with a match on the value and mask. 
+Multiple actions can be selected besides allowing or dropping traffic, such as redirecting a flow to a QoS policer or specifying a pointer to a different entry in the forwarding list table.
+
+---
+
+### -- Software CEF --
+
+Software CEF is known as the FIB (Forwarding Information Base) and consists of the following components:
+
+- **Forwarding Information Base**: The FIB is built directly from the routing table and contains the next-hop IP address for each destination in the network. It keeps a mirror image of the forwarding information contained in the IP routing table. When a routing or topology change occurs in the network, the IP routing table is updated, and these changes are also reflected in the FIB. CEF uses the FIB to make IP destination prefix-based switching decisions.
+
+- **Adjacency Table**: The AIB (Adjacency Information Base) contains the directly connected next-hop IP addresses and their corresponding next-hop MAC addresses, as well as the egress interface's MAC address. The AIB is populated with data from the ARP table or other Layer 2 protocol tables.
+
+---

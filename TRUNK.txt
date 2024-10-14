@@ -1,0 +1,59 @@
+### --TRUNK PORTS--
+
+- **Trunk ports** can carry multiple VLANs.
+- Trunk ports are typically used when multiple VLANs need connectivity between a switch and another switch, router, or firewall, using only one port.
+- Upon receipt of a packet on the remote trunk link, the headers are examined; traffic is associated with the proper VLAN, then the 802.1Q headers are removed, and traffic is forwarded to the next port based on the MAC address for that VLAN.
+
+---
+
+### To Statically Configure a Trunk Port:
+
+Sw1(config)# Interface [chosen interface] Sw1(config-if)# switchport mode trunk
+
+
+---
+
+### To See Which Trunk Ports You Have Successfully Configured:
+
+Use either of the following commands:
+- `show interfaces trunk`
+- `sh int trunk` (faster)
+
+The output shows results in three sections:
+
+1. **Section 1**: Lists interfaces that are trunk ports, their status, and the native VLAN for that trunk port.
+2. **Section 2**: Shows the list of VLANs that are allowed on the trunk port. Traffic can be minimized on trunk ports by not allowing specific VLANs to specific switches, thereby restricting broadcast traffic.
+3. **Section 3**: Shows VLANs that are in the forwarding state (note: blocked VLANs are not listed in this section).
+
+---
+
+### Example Output:
+
+**********************************************************************************
+
+----------------------------------------*Section 1*-------------------------------
+
+| Port      | Mode    | Encapsulation | Status    | Native VLAN |
+|-----------|---------|---------------|-----------|-------------|
+| g1/0/1    | Trunking| 802.1Q       | Trunking  | 1           |
+| g1/0/2    | Trunking| 802.1Q       | Trunking  | 1           |
+
+------------------------------------------*Section 2*----------------------------
+
+**Port**: VLANs allowed and active in management domain
+
+| Port      | VLANs                  |
+|-----------|-----------------------|
+| g1/0/1    | 1,10,20,99            |
+| g1/0/2    | 1,10,20,99            |
+
+------------------------------------*Section 3*----------------------------
+
+**Port**: VLANs forwarded and not pruned
+
+| Port      | VLANs                  |
+|-----------|-----------------------|
+| g1/0/1    | 1,10,20,99            |
+| g1/0/2    | 1,10,20,99            |
+
+---

@@ -1,0 +1,37 @@
+### -- Root Guard --
+
+Root Guard is an STP feature enabled on a port-by-port basis that prevents a configured port from becoming a root port.
+- Root Guard stops a downstream switch (which may be misconfigured or rogue) from becoming a root bridge in the topology.
+- Root Guard functions by placing a port in an ErrDisabled state if a superior BPDU is received on a configured port.
+- This prevents the designated port with Root Guard from becoming a root port.
+
+Root Guard is enabled with the interface command: `spanning-tree guard root`.
+- Root Guard is typically placed on designated ports facing other switches that should never become root bridges.
+
+### -- STP PortFast --
+
+The generation of TCNs for hosts does not make sense since a host generally has only one connection to the network. Restricting TCN creation to only ports that connect with other switches and network devices improves the stability and efficiency of the Layer 2 network. The STP PortFast feature disables TCN generation for access ports.
+
+###**Major Benefits of PortFast**:
+- Access ports bypass the earlier 802.1D STP states (learning and listening) and forward traffic immediately. 
+- This is beneficial in environments where computers use Dynamic Host Configuration Protocol (DHCP) or Preboot Execution Environment (PXE).
+- If a BPDU is received on a PortFast-enabled port, the PortFast functionality is removed from that port.
+
+###**Commands to Enable PortFast**:
+- PortFast can be enabled on a specific access port with the command: `spanning-tree portfast`.
+- PortFast can be enabled globally on all access ports with the command: `spanning-tree portfast default`.
+- If PortFast needs to be disabled on a specific port when using global configuration, use the interface command: `spanning-tree portfast disable` to remove PortFast on that port.
+
+###**Enabling PortFast on Trunk Links**:
+- PortFast can be enabled on trunk links with the command: `spanning-tree portfast trunk`.
+- This should only be used on ports connecting a single host (e.g., a server with one NIC running a hypervisor with VMs on different VLANs).
+- **Warning**: Running this command on interfaces connected to other switches or bridges can result in a bridging loop.
+
+### -- BPDU Guard --
+
+BPDU Guard is a safety mechanism that shuts down ports configured with STP PortFast upon the receipt of a BPDU.
+- Since access ports have PortFast enabled, BPDU Guard ensures that a loop cannot accidentally be created if an unauthorized switch is added to the topology.
+
+###**Enabling BPDU Guard**:
+- BPDU Guard is enabled globally on all STP PortFast ports with the command: `spanning-tree portfast bpduguard default`.
+- BPDU Guard can also be enabled or disabled on a specific interface with the command: `spanning-tree bpduguard {enable | disable}`.

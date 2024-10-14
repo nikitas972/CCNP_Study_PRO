@@ -1,0 +1,13 @@
+**802.1D Port Types**
+
+1. **Root Port (RP)**:  
+   A network port that connects to the Root bridge or an upstream switch in the spanning tree topology.  
+   *There should be only one root port per VLAN on a switch.*
+
+2. **Designated Port (DP)**:  
+   A network port that receives and forwards BPDU frames to other switches.  
+   *Designated Ports provide connectivity to devices and switches.*  
+   *There should be only one active Designated Port on a link.*
+
+3. **Blocking Port**:  
+   A network port that is not forwarding traffic because of STP calculations.

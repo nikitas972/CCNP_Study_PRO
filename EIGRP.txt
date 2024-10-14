@@ -1,0 +1,40 @@
+### Enhanced Distance Vector Algorithms
+
+The **Diffusing Update Algorithm (DUAL)** is an enhanced distance vector algorithm that EIGRP uses to calculate the shortest path to a destination within a network. EIGRP advertises network information to its neighbors as other distance vector protocols do, but it has some enhancements, as its name suggests. 
+
+The following are some of the enhancements introduced into this algorithm compared to other distance vector algorithms:
+- It offers rapid convergence time for changes in the network topology.
+- It sends updates only when there is a change in the network. It does not send full routing table updates in a periodic fashion, as distance vector protocols do.
+- It uses hellos and forms neighbor relationships just as link-state protocols do.
+- It uses bandwidth, delay, reliability, load, and maximum transmission unit (MTU) size instead of hop count for path calculations.
+- It has the option to load balance traffic across equal- or unequal-cost paths.
+
+EIGRP is sometimes referred to as a hybrid routing protocol because it has characteristics of both distance vector and link-state protocols, as shown in the preceding list. EIGRP relies on more advanced metrics other than hop count (for example, bandwidth) for its best-path calculations. 
+
+By default, EIGRP advertises the total path delay and minimum bandwidth for a route. This information is advertised in every direction, as happens with a distance vector routing protocol; however, each router can calculate the best path based on the information provided by its direct neighbors.
+
+
+
+### EIGRP Message Types
+
+**EIGRP (Enhanced Interior Gateway Routing Protocol)** uses several message types for communication between routers. Each message type serves a specific purpose in the routing process:
+
+1. **Hello**
+   - **Purpose**: Used for the discovery of EIGRP neighbors.
+   - **Function**: Detects when a neighbor is no longer available.
+
+2. **Request**
+   - **Purpose**: Used to request specific information from one or more neighbors.
+   - **Function**: Allows routers to obtain details about routes from neighboring routers.
+
+3. **Update**
+   - **Purpose**: Used to transmit routing and reachability information to other EIGRP neighbors.
+   - **Function**: Updates neighboring routers with changes in routing information.
+
+4. **Query**
+   - **Purpose**: Sent out to search for another path during convergence.
+   - **Function**: Used when a router needs to find an alternative route to a destination.
+
+5. **Reply**
+   - **Purpose**: Sent in response to a query packet.
+   - **Function**: Provides information back to the router that issued the query.

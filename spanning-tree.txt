@@ -1,0 +1,32 @@
+### **CHAPTER 2 - STP Protocol (Spanning Tree)**
+
+#### **Foundation Topics**
+
+Spanning Tree enables switches to become aware of other switches through the advertisement and receipt of Bridge Protocol Data Units (BPDUs). STP builds a layer 2 loop-free topology in an environment by temporarily blocking traffic on redundant ports. It operates by selecting a specific switch as the best switch and running a tree-based algorithm to identify which redundant ports should not forward traffic.
+
+STP has multiple iterations:
+
+- **Per-VLAN Spanning Tree (PVST)**
+- **Per-VLAN Spanning Tree Plus (PVST+)**
+- **802.1W Rapid Spanning Tree Protocol (RSTP)**
+- **802.1S Multiple Spanning Tree Protocol (MST)**
+
+Catalyst switches operate in PVST+, MST, and RSTP modes.
+
+---
+
+#### **Port States**
+
+In 802.1D STP, every port transitions through the following states:
+
+1. **Disabled**: The port has been administratively turned off (shut).
+
+2. **Blocking**: The switch port is enabled, but the port is not forwarding any traffic to ensure that a loop is not created. The switch does not modify the MAC address table. It can only receive BPDUs from other switches.
+
+3. **Listening**: The switch port has transitioned from a blocking state and can now send or receive BPDUs. It cannot forward any other network traffic besides BPDUs. The duration of this state correlates to the STP forwarding time. The next port state is forwarding.
+
+4. **Forwarding**: The switch has detected a configuration or operational problem on a port that can have major effects. The port discards packets as long as the problem continues to exist.
+
+5. **Broken**: The switch has detected a configuration or operational problem on a port that can have major effects. The port discards packets as long as the problem continues to exist.
+
+**NOTE**: The entire 802.1D STP initialization time takes about 30 seconds for a port to transition from a blocking to a forwarding state using default timers after a switch port transitions to a carrier up state.

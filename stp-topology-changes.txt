@@ -1,0 +1,36 @@
+### -- STP Topology Changes --
+
+In a stable Layer 2 topology, configuration BPDUs always flow from the root bridge toward the edge switches.
+However, changes in the topology (e.g., switch failure, link failure, or links becoming active) impact all the switches in the Layer 2 topology.
+
+###1. **Detection of Topology Change**:
+   - The switch that detects a link status change sends a Topology Change Notification (TCN) BPDU toward the root bridge, out its Root Port (RP).
+   
+###2. **Acknowledgment of TCN**:
+   - If an upstream switch receives the TCN, it sends an acknowledgment (ACK) and forwards the TCN out its RP to the root bridge.
+   
+###3. **Root Bridge Response**:
+   - Upon receiving the TCN, the root bridge creates a new configuration BPDU with the topology change flag set, which is then flooded to all switches.
+   
+###4. **MAC Address Timer Update**:
+   - When a switch receives a configuration BPDU with the topology change flag set, all switches change their MAC address timer to the forwarding delay timer (default: 15 seconds).
+   - This flushes out MAC addresses for devices that have not communicated within the 15-second window but retains the MAC addresses of actively communicating devices.
+   
+###5. **Flushing the MAC Address Table**:
+   - Flushing the MAC address table prevents a switch from sending traffic to a host that is no longer reachable via that port.
+   - A side effect of this is temporarily increased unknown unicast flooding while the table is rebuilt.
+   
+###6. **Reset of MAC Address Timer**:
+   - After receiving the configuration BPDU, the MAC address timer is reset to normal (default: 300 seconds).
+
+### Important Notes:
+
+- TCNs are generated on a per-VLAN basis, so the impact of TCNs correlates with the number of hosts in a VLAN.
+- As the number of hosts increases, the likelihood of TCN generation increases, and more hosts are impacted by broadcasts.
+- Topology changes should be checked as part of the troubleshooting process. Mechanisms such as PortFast (discussed in Chapter 3) can modify this behavior and reduce TCN generation.
+
+### Troubleshooting:
+
+- Topology changes can be monitored with the command: `show spanning-tree vlan [id] detail` on a switch.
+- This command shows the topology change count and the time since the last change occurred.
+- A sudden or continuous increase in TCNs indicates a potential problem and should be investigated further for flapping ports or events on a connected switch.

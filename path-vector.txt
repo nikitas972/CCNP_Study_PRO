@@ -1,0 +1,36 @@
+###Path Vector Algorithm
+The Path Vector Protocol, exemplified by BGP (Border Gateway Protocol), is a type of routing protocol that combines features of both distance vector and link-state protocols. Instead of simply considering the distance to determine the best path, it evaluates various path attributes associated with each route.
+
+###Key Characteristics:
+Path Attributes: BGP uses a variety of attributes to assess the quality and preference of routes. Some of the most important path attributes include:
+Autonomous System Path (AS_Path): A list of ASes that a route has traversed. This helps in preventing loops.
+
+###Multi-Exit Discriminator (MED): 
+A hint to external neighbors about the preferred path into an AS.
+
+###Origin: 
+Indicates the origin of the route information.
+
+###Next Hop: 
+The next IP address to which packets should be forwarded.
+
+
+###Local Preference: 
+Used within an AS to prefer certain routes over others.
+
+
+
+###Atomic Aggregate: 
+Indicates that the path has been aggregated.
+
+
+###Aggregator: 
+Information about the AS that performed the aggregation.
+
+
+Loop Prevention:
+To ensure loop-free paths, the path vector protocol maintains a record of each autonomous system (AS) that a routing advertisement traverses. Here's how it works:
+
+When a router receives an advertisement, it checks the AS_Path attribute.
+If the router finds its own AS listed in the AS_Path, it rejects the advertisement.
+This mechanism prevents routing loops by ensuring that routes do not traverse back through an AS that has already processed them.

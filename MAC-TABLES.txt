@@ -1,0 +1,26 @@
+MAC addressing. 
+Mac addressing should be self-explanatory since it's something we've worked on in CCNA1-2-3 but, Every hardware running software has a mac address attached to it which is an identifier, such as 2D-A0-1C-DD-9A-F2
+												
+														---MAC_TABLES---
+***************************************************************************************************************************************************
+The MAC address table reside in Content Addressable Memory(CAM)
+The CAM uses high-speed memory that is faster than typical computer RAM, due to its search Techniques. The CAM table provides a binary result for any query of 0 for true or 1 for false.
+The CAM tables is used with other functions to analyze and forward packets very quickly.
+Switches are built with a  large CAM table to accomodate all the layer 2 hosts for which they mantain forwarding tables.
+***************************************************************************************************************************************************
+														---MAC_TABLES---
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+																													Interface status.
+A useful command for troubleshooting switch connectivity.
+The output is as follows :
+ Port  : displays the interface ID or port channel
+ Name : displays the configured interface description
+ Status: Displays connected if there is a connection. Alternatively displays NOTCONNECT if a connection is not made or on the Disabled-ERR status
+ VLAN : Displays vlan number associated with Access Switchport to that port .
+ Speed : Displays the speed, if the port speed was auto configured, it displays auto else a-1000
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 

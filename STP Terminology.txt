@@ -1,0 +1,51 @@
+### -- STP (Spanning Tree Protocol) Key Terms --
+
+###- **Root Bridge**:
+  The root bridge is the most important switch in the Layer 2 topology.
+  - All ports are in the forwarding state.
+  - This switch is considered the top of the spanning tree for all path calculations by other switches.
+  - All ports on the root bridge are designated ports.
+
+###- **Bridge Protocol Data Unit (BPDU)**:
+  A BPDU is a network packet used by switches to identify the hierarchy and notify changes in the topology.
+  - BPDUs use the destination MAC address `01:80:c2:00:00:00`.
+  - **Types of BPDUs**:
+    - **Configuration BPDU**:
+      Identifies the root bridge, root ports, designated ports, and blocking ports.
+      It consists of the following fields: STP type, root path cost, root bridge identifier, local bridge identifier, max age, hello time, and forward delay.
+    - **Topology Change Notification (TCN) BPDU**:
+      Communicates changes in the Layer 2 topology to other switches.
+
+###- **Root Path Cost**:
+  A 4-bit value that indicates the preference for a switch to become the root bridge. The default value is 32,768.
+
+###- **System ID Extension**:
+  A 12-bit value that shows the VLAN the BPDU correlates to. The system priority and system ID extension combine to help identify the root bridge.
+
+
+###- **Root Bridge Identifier**:
+  A combination of the root bridge system's MAC address, system ID extension, and system priority, used to identify the root bridge.
+
+
+###- **Local Bridge Identifier**:
+  Similar to the root bridge identifier but specific to the local bridge, combining the system MAC address, system ID extension, and system priority.
+
+
+###- **Max Age**:
+  The maximum amount of time a bridge port saves its BPDU information.
+  - Default value: 20 seconds.
+  - This can be changed with the command: `spanning-tree vlan [vlan] max age [int]`.
+  - If a switch loses contact with the BPDU source, it assumes the BPDU information is still valid for the duration of the Max Age timer.
+
+
+###- **Hello Time**:
+  The interval at which a BPDU is advertised out of a port.
+  - Default value: 2 seconds.
+  - Can be configured between 1 to 10 seconds using the command: `spanning-tree vlan [vlan] hello time [time]`.
+
+
+
+###- **Forward Delay**:
+  The amount of time a port remains in the listening and learning states.
+  - Default value: 15 seconds.
+  - Can be changed to 15–30 seconds using the command: `spanning-tree vlan [vlan] forward time [time]`.

@@ -1,0 +1,77 @@
+### Link-State Algorithms
+
+A link-state dynamic IP routing protocol advertises the link state and link metric for each of its connected links and directly connected routers to every router in the network. 
+
+Two commonly used link-state routing protocols are:
+
+- **OSPF (Open Shortest Path First)**
+- **IS-IS (Intermediate System to Intermediate System)**
+
+#### Advertisements
+
+- OSPF advertisements are called **link-state advertisements (LSAs)**.
+- IS-IS uses **link-state packets (LSPs)** for its advertisements.
+
+#### Link-State Database (LSDB)
+
+As a router receives an advertisement from a neighbor, it:
+
+1. Stores the information in a local database called the **link-state database (LSDB)**.
+2. Advertises the link-state information to each of its neighbor routers exactly as it was received.
+
+This link-state information is flooded throughout the network unchanged, allowing all routers to maintain a synchronized and identical map of the network.
+
+#### Shortest Path Calculation
+
+Using the complete map of the network, every router runs the **Dijkstra Shortest Path First (SPF)** algorithm to calculate the best loop-free paths. The link-state algorithm then populates the routing table with this information.
+
+#### Advantages and Disadvantages
+
+- **Advantages of Link-State Protocols:**
+  - Less prone to routing loops.
+  - Make better path decisions due to the complete network map.
+
+- **Disadvantages:**
+  - Usually require more CPU and memory than distance vector protocols.
+
+#### Extended Capabilities
+
+Link-state protocols are equipped with extended capabilities such as:
+
+- **Opaque LSAs** for OSPF.
+- **TLVs (Type/Length/Value)** for IS-IS.
+
+These features support functionalities commonly used by service providers, such as **MPLS (Multiprotocol Label Switching) traffic engineering**.
+
+
+
+
+
+ State      Description                                                                                                                        
+__________  ________________________________________________________________________________________________________________________________           
+ **Down**   This is the initial state of a neighbor relationship. It indicates that the router has not received any OSPF hello packets.       
+__________  ________________________________________________________________________________________________________________________________           
+ **Attempt** This state is relevant to NBMA (Non-Broadcast Multi-Access) networks that do not support broadcast and require explicit neighbor     
+            configuration. It indicates that no information has been received recently, but the router is still attempting communication.       
+__________  ________________________________________________________________________________________________________________________________
+ **Init**   This state indicates that a hello packet has been received from another router, but bidirectional communication has not been        
+            established.                                                                                                                       
+__________  ________________________________________________________________________________________________________________________________          
+ **2-Way**  Bidirectional communication has been established. If a Designated Router (DR) or Backup Designated Router (BDR) is needed, the     
+            election occurs during this state.                                                                                                
+__________  ________________________________________________________________________________________________________________________________
+
+ **ExStart** This is the first state in forming an adjacency. Routers identify which router will be the master or slave for                   
+
+            the Link State Database (LSDB) synchronization.                                                                                    
+
+__________  ________________________________________________________________________________________________________________________________
+ **Exchange** During this state, routers are exchanging link states by using Database Description (DBD) packets.                                 
+__________  ________________________________________________________________________________________________________________________________
+
+ **Loading** Link State Request (LSR) packets are sent to the neighbor, asking for the more recent Link State Advertisements (LSAs) that have    
+            been discovered (but not received) in the Exchange state.                                                                            
+__________  ________________________________________________________________________________________________________________________________
+
+ **Full**    Neighboring routers are fully adjacent.                                                                                               
+__________  ________________________________________________________________________________________________________________________________

@@ -1,0 +1,12 @@
+### -- Root Bridge Election --
+
+The first step with STP is to identify the root bridge. When a switch initializes, it assumes that it is the root bridge and uses its local bridge identifier as the root bridge identifier.
+It then listens to its neighbor's configuration BPDU and performs the following steps:
+  - If the neighbor's configuration BPDU is inferior to its own, the switch ignores that BPDU.
+  - If the neighbor's configuration BPDU is preferred to its own BPDU, the switch updates its BPDUs to include the new root bridge identifier, along with a new root path cost that correlates to the total path cost to reach the new root bridge. This process continues until all switches in the topology have identified the root bridge switch.
+
+**Note**:
+  - STP considers a switch more preferable if the priority in the bridge identifier is lower than the priority of the switch's configuration BPDUs. If the priority is the same, the switch prefers the BPDU with the lower system MAC address.
+  
+**Note 2**:
+  - Older switches generally have lower MAC addresses and are thus considered more preferable. However, configuration changes can be made to optimize the placement of the root switch in a Layer 2 topology.
